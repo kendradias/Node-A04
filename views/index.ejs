@@ -1,0 +1,21 @@
+<h1>Welcome to My Node.js Portfolio</h1>
+<p>Welcome to my professional portfolio showcasing my work in web development and software engineering.</p>
+
+<% if (projects && projects.length > 0) { %>
+    <section class="featured-projects">
+        <h2>Featured Projects</h2>
+        <div class="project-grid">
+            <% projects.forEach(project => { %>
+                <article class="project-card">
+                    <h3><%= project.title %></h3>
+                    <p><%= project.summary %></p>
+                    <ul>
+                        <% project.tech.forEach(tech => { %>
+                            <li><%= tech %></li>
+                        <% }); %>
+                    </ul>
+                </article>
+            <% }); %>
+        </div>
+    </section>
+<% } %>

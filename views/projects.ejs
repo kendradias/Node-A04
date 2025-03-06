@@ -1,0 +1,20 @@
+<h1>My Projects</h1>
+<form action="/projects/search" method="GET" class="search-form">
+    <input type="text" name="query" placeholder="Search projects...">
+    <button type="submit">Search</button>
+</form>
+<div class="project-grid">
+    <% projects.forEach(project => { %>
+        <article class="project-card">
+            <h2><%= project.title %></h2>
+            <img src="<%= project.screenshot %>" alt="<%= project.title %> screenshot" onerror="this.style.display='none'">
+            <p><%= project.summary %></p>
+            <ul>
+                <% project.tech.forEach(tech => { %>
+                    <li><%= tech %></li>
+                <% }); %>
+            </ul>
+            <a href="/projects/<%= project.id %>">View Details</a>
+        </article>
+    <% }); %>
+</div>

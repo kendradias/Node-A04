@@ -1,0 +1,12 @@
+<h1><%= project.title %></h1>
+<img src="<%= project.screenshot %>" alt="<%= project.title %> screenshot" class="project-image">
+<div class="project-details">
+    <h2>Technology Stack</h2>
+    <ul>
+        <% project.tech.forEach(tech => { %>
+            <li><%= tech %></li>
+        <% }); %>
+    </ul>
+    <h2>Description</h2>
+    <p><%= project.description %></p>
+</div>
