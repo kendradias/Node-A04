@@ -1,15 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const Project = require('./models/Project');
+const Project = require('./src/models/projects');
 
 // Load environment variables
 dotenv.config();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+mongoose.connect(process.env.MONGODB_URI);
 
 // Sample project data
 const projectData = [
