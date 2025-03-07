@@ -2,10 +2,20 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 const morgan = require('morgan');
-const Projects = require('./src/models/projects');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+// Load environment variables
+dotenv.config();
+
+// Import database connection
+require('./config/db');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Import routes
+const routes = require('./src/routes');
 
 // Middleware
 app.use(morgan('dev'));
@@ -17,49 +27,25 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
-app.set('layout', 'layout'); // Specify the layout file
+app.set('layout', 'layout'); 
 
-const projects = Projects.getAllProjects();
+// Mount all routes
+app.use('/', routes);
 
-// Routes
-app.get('/', (req, res) => {
-    res.render('index', { 
-        title: 'Home',
-        projects: projects
-    });
-});
-
-app.get('/about', (req, res) => {
-    res.render('about', { 
-        title: 'About'
-    });
-});
-
-app.get('/projects', (req, res) => {
-    res.render('projects', { 
-        title: 'Projects',
-        projects: projects
-    });
-});
-
-app.get('/contact', (req, res) => {
-  res.render('contact', { 
-      title: 'Contact' 
-  });
-});
-
-app.post('/contact', (req, res) => {
-  console.log('Contact Form Submission:', req.body);
-
-  res.render('thank-you', { 
-    title: 'Thank You' 
-  });
-});
-
-// 404 Handler
+// 404 Handler (this will be triggered if no route matches)
 app.use((req, res) => {
     res.status(404).render('404', { 
         title: 'Not Found' 
+    });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+
+    res.status(500).render('404', { 
+      title: 'Server Error',
+      message: 'Something went wrong on our end. Please try again later.'
     });
 });
 

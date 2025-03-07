@@ -1,4 +1,4 @@
-const Project = require('../models/Project');
+const Project = require('../src/models/projects');
 
 /**
  * Get all projects
@@ -72,7 +72,7 @@ exports.searchProjects = async (req, res) => {
         
         let projects;
         if (query) {
-            // Use MongoDB text search for better results
+            // Use MongoDB text search
             projects = await Project.find({ 
                 $text: { $search: query } 
             });
