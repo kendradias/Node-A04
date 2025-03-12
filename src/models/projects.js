@@ -26,7 +26,17 @@ const ProjectSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
     }
+});
+
+// Pre-save middleware to update the updatedAt field
+ProjectSchema.pre('findOneAndUpdate', function(next) {
+    this.set({ updatedAt: new Date() });
+    next();
 });
 
 // Create a text index for search functionality
