@@ -1,20 +1,65 @@
-<h1>My Projects</h1>
-<form action="/projects/search" method="GET" class="search-form">
-    <input type="text" name="query" placeholder="Search projects...">
-    <button type="submit">Search</button>
-</form>
-<div class="project-grid">
-    <% projects.forEach(project => { %>
-        <article class="project-card">
-            <h2><%= project.title %></h2>
-            <img src="<%= project.screenshot %>" alt="<%= project.title %> screenshot" onerror="this.style.display='none'">
-            <p><%= project.summary %></p>
-            <ul>
-                <% project.tech.forEach(tech => { %>
-                    <li><%= tech %></li>
-                <% }); %>
-            </ul>
-            <a href="/projects/<%= project.id %>">View Details</a>
-        </article>
-    <% }); %>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">
+            <% if (typeof searchTerm !== 'undefined' && searchTerm) { %>
+                Search Results: "<%= searchTerm %>"
+            <% } else { %>
+                My Projects
+            <% } %>
+        </h1>
+        <a href="/projects/create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Project
+        </a>
+    </div>
+
+    <% if (typeof searchTerm !== 'undefined' && searchTerm && projects.length === 0) { %>
+        <div class="alert alert-info">
+            No projects found for "<%= searchTerm %>". <a href="/projects">View all projects</a> instead.
+        </div>
+    <% } %>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <% projects.forEach(project => { %>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img 
+                        src="<%= project.screenshot %>" 
+                        class="card-img-top" 
+                        alt="<%= project.title %>"
+                        style="height: 180px; object-fit: cover;"
+                    >
+                    <div class="card-body">
+                        <h5 class="card-title"><%= project.title %></h5>
+                        <p class="card-text"><%= project.summary %></p>
+                        <div class="d-flex flex-wrap mb-2">
+                            <% project.tech.forEach(tech => { %>
+                                <span class="badge bg-secondary me-1 mb-1"><%= tech %></span>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="/projects/<%= project._id %>" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <div>
+                                <a href="/projects/<%= project._id %>/edit" class="btn btn-sm btn-outline-secondary me-1">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a href="/projects/<%= project._id %>/delete" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <% if (projects.length === 0 && (typeof searchTerm === 'undefined' || !searchTerm)) { %>
+        <div class="alert alert-info text-center my-5">
+            <p>No projects found. Click "Add New Project" to create your first project!</p>
+        </div>
+    <% } %>
 </div>

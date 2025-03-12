@@ -1,0 +1,100 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0"><%= title %></h2>
+                </div>
+                <div class="card-body">
+                    <form action="<%= formAction %>" method="<%= formMethod %>" enctype="multipart/form-data">
+                        <!-- Title Field -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Project Title</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="title" 
+                                name="title" 
+                                value="<%= project ? project.title : '' %>" 
+                                required
+                            >
+                        </div>
+
+                        <!-- Summary Field -->
+                        <div class="mb-3">
+                            <label for="summary" class="form-label">Summary</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="summary" 
+                                name="summary" 
+                                value="<%= project ? project.summary : '' %>" 
+                                required
+                            >
+                            <div class="form-text">A brief, one-sentence description of your project.</div>
+                        </div>
+
+                        <!-- Technologies Field -->
+                        <div class="mb-3">
+                            <label for="tech" class="form-label">Technologies Used</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="tech" 
+                                name="tech" 
+                                value="<%= project ? project.tech.join(', ') : '' %>" 
+                                required
+                            >
+                            <div class="form-text">Comma-separated list (e.g., "JavaScript, Node.js, MongoDB")</div>
+                        </div>
+
+                        <!-- Screenshot Field -->
+                        <div class="mb-3">
+                            <label for="screenshot" class="form-label">Project Screenshot</label>
+                            <input 
+                                type="file" 
+                                class="form-control" 
+                                id="screenshot" 
+                                name="screenshot" 
+                                accept="image/*" 
+                                <%= project ? '' : 'required' %>
+                            >
+                            <% if (project && project.screenshot) { %>
+                                <div class="mt-2">
+                                    <p>Current image:</p>
+                                    <img 
+                                        src="<%= project.screenshot %>" 
+                                        alt="<%= project.title %>" 
+                                        class="img-thumbnail" 
+                                        style="max-height: 200px;"
+                                    >
+                                    <div class="form-text">Upload a new image only if you want to replace the current one.</div>
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Full Description</label>
+                            <textarea 
+                                class="form-control" 
+                                id="description" 
+                                name="description" 
+                                rows="6" 
+                                required
+                            ><%= project ? project.description : '' %></textarea>
+                        </div>
+
+                        <!-- Form Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="/projects" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">
+                                <%= project ? 'Update Project' : 'Create Project' %>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
